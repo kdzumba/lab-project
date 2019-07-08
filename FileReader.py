@@ -24,6 +24,17 @@ def remove_urls(tweet_text):
 
 	return tweet
 
+#Removes all new line characters from the tweet text (using the regular expression in regex)
+def remove_line(tweet_text):
+	tweet = tweet_text
+	regex = r'[\n]'
+	match = re.search(regex, tweet_text)
+
+	if match:
+		tweet = re.sub(regex,'',tweet_text)
+
+	return tweet
+
 #Path to the file containing the stream of data downloaded from twitter
 tweets_data_path = 'twitter_data.txt'
 
@@ -51,23 +62,25 @@ for tweet in tweets_data:
 			tweet_text = tweet['retweeted_status']['extended_tweet']['full_text']
 			tweet_without_username = remove_usernames(tweet_text)
 			tweet_without_urls = remove_urls(tweet_without_username)
-			print(tweet_without_urls)
+			text = remove_line(tweet_without_urls)
+			print(text)
 			print('\n')
+
 	#Do this for tweets that have more than 140 characters, where the extended_tweet dictionary is not embedded within the 
 	#retweeted_status dictionary
 	elif 'extended_tweet' in tweet:
 		tweet_text = tweet['extended_tweet']['full_text']
 		tweet_without_username = remove_usernames(tweet_text)
 		tweet_without_urls = remove_urls(tweet_without_username)
-		print(tweet_without_urls)
-		print('here')
-		print('\n')
+		text = remove_line(tweet_without_urls)
+		print(text)
 	#Do this for tweets that have 140 characters or less
 	else:
 		tweet_text = tweet['text']
 		tweet_without_username = remove_usernames(tweet_text)
 		tweet_without_urls = remove_urls(tweet_without_username)
-		print(tweet_without_urls)
+		text = remove_line(tweet_without_urls)
+		print(text)
 		print('\n')
 
 
