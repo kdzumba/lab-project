@@ -5,6 +5,11 @@ import re
 def remove_usernames(tweet_text):
 	regex = r'@\w*\s'
 	tweet_text = re.sub(regex, '', tweet_text)
+	
+#Removes all twitter urls from the tweet text (using the regurlar expression in regx)
+def remove_urls(tweet_text):
+	regex = r'(?:\@|https?\://)\S+'
+	tweet_text = re.sub(regex, '', tweet_text)
 
 
 tweets_data_path = 'twitter_data.txt'
@@ -29,9 +34,12 @@ for tweet in tweets_data:
 		if 'extended_tweet' in tweet['retweeted_status']:
 			text = tweet['retweeted_status']['extended_tweet']['full_text']
 			remove_usernames(text)
+			remove_urls(text)
 			print(text)
 	else:
 		remove_usernames(tweet['text'])
+		remove_urls(tweet['text'])
 		print(text)
+
 
 
