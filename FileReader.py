@@ -1,11 +1,27 @@
 import json
 import re
 
-#Removes all twitter usernames from the tweet text (using the regurlar expression in regx)
+#Removes all twitter usernames from the tweet text (using the regurlar expression in regex)
 def remove_usernames(tweet_text):
+	tweet = tweet_text
 	regex = r'@\w*\s'
-	tweet_text = re.sub(regex, '', tweet_text)
+	match = re.search(regex,tweet_text)
 
+	if match:
+		tweet = re.sub(regex,'',tweet_text)
+
+	return tweet
+
+
+def remove_urls(tweet_text):
+	tweet = tweet_text
+	regex = r'(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)+?([a-z0-9])+([\-\.]{1}[a-z0-9]+)*(\/)+?([A-Za-z0-9]+)'
+	match = re.search(regex,tweet_text)
+
+	if match:
+		tweet = re.sub(regex,'',tweet_text)
+
+	return tweet
 
 tweets_data_path = 'twitter_data.txt'
 
@@ -27,11 +43,15 @@ print (len(tweets_data))
 for tweet in tweets_data:
 	if 'retweeted_status' in tweet:
 		if 'extended_tweet' in tweet['retweeted_status']:
-			text = tweet['retweeted_status']['extended_tweet']['full_text']
-			remove_usernames(text)
-			print(text)
+			tweet_text = tweet['retweeted_status']['extended_tweet']['full_text']
+			tweet_without_username = remove_usernames(tweet_text)
+			tweet_without_urls = remove_urls(tweet_without_username)
+			print(tweet_without_urls)
+			print('\n')
 	else:
-		remove_usernames(tweet['text'])
-		print(text)
+		tweet_without_username = remove_usernames(tweet['text'])
+		tweet_without_urls = remove_urls(tweet['text'])
+		print(tweet_without_urls)
+		print('\n')
 
 
