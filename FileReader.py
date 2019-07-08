@@ -4,7 +4,6 @@ import re
 #Removes all twitter usernames from the tweet text (using the regurlar expression in regex)
 def remove_usernames(tweet_text):
 	tweet = tweet_text
-
 	regex = r'@\w*\s' #Regurlar expression that matches twitter usernames
 	match = re.search(regex,tweet_text)
 
@@ -45,6 +44,8 @@ print (len(tweets_data))
 
 #Extracting a tweet text from tweets data
 for tweet in tweets_data:
+	#Do this for tweets that have more than 140 characters, where the extended_tweet dictionary is embedded within then
+	#retweeted_status dictionary
 	if 'retweeted_status' in tweet:
 		if 'extended_tweet' in tweet['retweeted_status']:
 			tweet_text = tweet['retweeted_status']['extended_tweet']['full_text']
@@ -52,9 +53,20 @@ for tweet in tweets_data:
 			tweet_without_urls = remove_urls(tweet_without_username)
 			print(tweet_without_urls)
 			print('\n')
+	#Do this for tweets that have more than 140 characters, where the extended_tweet dictionary is not embedded within the 
+	#retweeted_status dictionary
+	elif 'extended_tweet' in tweet:
+		tweet_text = tweet['extended_tweet']['full_text']
+		tweet_without_username = remove_usernames(tweet_text)
+		tweet_without_urls = remove_urls(tweet_without_username)
+		print(tweet_without_urls)
+		print('here')
+		print('\n')
+	#Do this for tweets that have 140 characters or less
 	else:
-		tweet_without_username = remove_usernames(tweet['text'])
-		tweet_without_urls = remove_urls(tweet['text'])
+		tweet_text = tweet['text']
+		tweet_without_username = remove_usernames(tweet_text)
+		tweet_without_urls = remove_urls(tweet_without_username)
 		print(tweet_without_urls)
 		print('\n')
 
