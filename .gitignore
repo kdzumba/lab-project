@@ -16,6 +16,3 @@ twitter_streaming.py
 
 #ignore python generated files
 /__pycache__
-
-#Don't commit the data folder (for now)
-/data
