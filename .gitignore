@@ -10,3 +10,12 @@
 
 #ignore sublime workspace files
 *.sublime-workspace
+
+#ignore twitter_streaming.py (contains twitter api access tokens and keys)
+twitter_streaming.py
+
+#ignore python generated files
+/__pycache__
+
+#Don't commit the data folder (for now)
+/data
