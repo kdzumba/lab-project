@@ -13,7 +13,7 @@ import re
 import csv
 import json
 
-# Removes all twitter usernames from the tweet text (using the regurlar expression in regex)
+# Removes all twitter usernames from the tweet text (using the regular expression in regex)
 # and replaces them with 'TAGHERE'
 
 
@@ -27,7 +27,7 @@ def remove_usernames(tweet_text):
     return tweet
 
 
-# Removes all twitter urls from the tweet text (using the regurlar expression in regex)
+# Removes all twitter urls from the tweet text (using the regular expression in regex)
 # and replaces them with 'URLHERE'
 
 def remove_urls(tweet_text):
@@ -74,6 +74,7 @@ def convert_to_csv(input_filename, output_filename):
                 tweet = '"' + stripped + '"'
                 row = (2, ' ', ' ', ' ', tweet)
                 writer.writerow(row)
+
 
 
 # Extracts tweet text from downloaded json tweet data. The tweet data is stored
@@ -124,3 +125,4 @@ def get_tweets(input_filename, output_filename):
                         tweet_without_username)
                     output_file.write(tweet_without_linebreaks)
                     output_file.write("\n")
+
