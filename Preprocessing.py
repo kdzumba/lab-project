@@ -12,6 +12,7 @@ This includes:
 import re
 import csv
 import json
+import pandas as pd
 
 # Removes all twitter usernames from the tweet text (using the regurlar expression in regex)
 # and replaces them with 'TAGHERE'
@@ -124,3 +125,11 @@ def get_tweets(input_filename, output_filename):
                         tweet_without_username)
                     output_file.write(tweet_without_linebreaks)
                     output_file.write("\n")
+
+
+# Given the path to a csv file, the function removes duplicate tweets from the file
+# Only the first occurance of the tweet is retained
+def remove_duplicates(filepath):
+    df = pd.read_csv(filepath)
+    df.drop_duplicates(subset=['tweet'], keep='first', inplace=True)
+    df.to_csv(filepath, index=False)
