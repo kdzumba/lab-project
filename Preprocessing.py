@@ -14,7 +14,7 @@ import csv
 import json
 import pandas as pd
 
-# Removes all twitter usernames from the tweet text (using the regurlar expression in regex)
+# Removes all twitter usernames from the tweet text (using the regular expression in regex)
 # and replaces them with 'TAGHERE'
 
 
@@ -28,7 +28,7 @@ def remove_usernames(tweet_text):
     return tweet
 
 
-# Removes all twitter urls from the tweet text (using the regurlar expression in regex)
+# Removes all twitter urls from the tweet text (using the regular expression in regex)
 # and replaces them with 'URLHERE'
 
 def remove_urls(tweet_text):
