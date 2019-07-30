@@ -16,6 +16,7 @@ import pandas as pd
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize 
+from nltk.stem import PorterStemmer
 
 # Removes all twitter usernames from the tweet text (using the regular expression in regex)
 # and replaces them with 'TAGHERE'
@@ -84,6 +85,16 @@ def remove_stopwords(tweet_text):
         if word not in stop_words: 
             filtered_tweet.append(word)
     return filtered_tweet
+
+# Stems words in tweets
+
+def stem_words(tweet_text): 
+    ps = PorterStemmer()
+    tweet = tweet_text
+    words = word_tokenize(tweet_text) 
+   
+    for w in words: 
+        return(w, " : ", ps.stem(w)) 
 
 # Creates a csv file(output_filename) from textual data that is in input_filename
 
