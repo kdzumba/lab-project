@@ -13,7 +13,7 @@ import re
 import csv
 import json
 import pandas as pd
-import string
+import nltk
 
 # Removes all twitter usernames from the tweet text (using the regular expression in regex)
 # and replaces them with 'TAGHERE'
@@ -62,12 +62,12 @@ def convert_to_lower_case(tweet_text):
     tweet = tweet.lower()
     return tweet
 
-# Collects all hashtags in tweets
+# Tokenises tweets in order to extract text with hashtags
 
-def get_all_hashtags(tweet_text):
+def tokenise_tweets(tweet_text):
     tweet = tweet_text
-    regex = r'[#+]{1,}'
-    re.findall(regex,tweet_text)
+    pattern = r'''(?x)([A-Z]\.)+|\d+:\d+|(https?://)?(\w+\.)(\w{2,})+([\w/]+)?|[@\#]?\w+(?:[-']\w+)*|\$\d+(\.\d+)?%?|\\[Uu]\w+|\.\.\.|[!?]+'''
+    nltk.regexp_tokenize(tweet_text, pattern)
     return tweet
 
 # Creates a csv file(output_filename) from textual data that is in input_filename
