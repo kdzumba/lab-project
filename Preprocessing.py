@@ -14,6 +14,8 @@ import csv
 import json
 import pandas as pd
 import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize 
 
 # Removes all twitter usernames from the tweet text (using the regular expression in regex)
 # and replaces them with 'TAGHERE'
@@ -69,6 +71,19 @@ def tokenise_tweets(tweet_text):
     pattern = r'''(?x)([A-Z]\.)+|\d+:\d+|(https?://)?(\w+\.)(\w{2,})+([\w/]+)?|[@\#]?\w+(?:[-']\w+)*|\$\d+(\.\d+)?%?|\\[Uu]\w+|\.\.\.|[!?]+'''
     nltk.regexp_tokenize(tweet_text, pattern)
     return tweet
+
+# Removes stop words in tweets
+
+def remove_stopwords(tweet_text):
+    stop_words = set(stopwords.words('english')) 
+    word_tokens = word_tokenize(tweet_text) 
+    filtered_tweet = [word for word in word_tokens if not word in stop_words] 
+    filtered_tweet = [] 
+  
+    for word in word_tokens: 
+        if word not in stop_words: 
+            filtered_tweet.append(word)
+    return filtered_tweet
 
 # Creates a csv file(output_filename) from textual data that is in input_filename
 
