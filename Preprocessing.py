@@ -97,10 +97,10 @@ def stem_words(tweet_text):
     for w in words: 
         return(w, " : ", ps.stem(w)) 
 
-# Prints emojis
+# Extracts all emojis in tweets
 
-def print_emojis():
-     print(emoji.emojize(':thumbs_up:'))
+def extract_emojis(tweet_text):
+  return ''.join(emoj for emoj in tweet_text if emoj in emoji.UNICODE_EMOJI)
 
 # Creates a csv file(output_filename) from textual data that is in input_filename
 
@@ -115,6 +115,10 @@ def convert_to_csv(input_filename, output_filename):
                 tweet = '"' + stripped + '"'
                 row = (2, ' ', ' ', ' ', tweet)
                 writer.writerow(row)
+
+line = """💥WATCH💥UC. Berkeley👉NO WHITES ALLOWED DAY!!💥What is happening to America🤬💥No Federal money should be given to schools that practice racial discrimination!💥But the kids protesting want free tuition paid for by white Americans!💥RETWEET THISURLHERE"""
+text = line
+extract_emojis(text)
 
 
 # Extracts tweet text from downloaded json tweet data. The tweet data is stored
