@@ -14,6 +14,7 @@ import csv
 import json
 import pandas as pd
 import nltk
+from nltk.tokenize import TweetTokenizer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize 
 from nltk.stem import PorterStemmer
@@ -69,9 +70,9 @@ def convert_to_lower_case(tweet_text):
 # Tokenises tweets in order to extract text with hashtags
 
 def tokenise_tweets(tweet_text):
+    tknzr = TweetTokenizer()
     tweet = tweet_text
-    tweet = nltk.word_tokenize(tweet_text)
-    return tweet
+    return tknzr.tokenize(tweet_text)
 
 # Removes stop words in tweets
 
@@ -100,11 +101,6 @@ def stem_words(tweet_text):
 
 def extract_emojis(tweet_text):
   return ''.join(emoj for emoj in tweet_text if emoj in emoji.UNICODE_EMOJI)
-
-
-line = """#ArewaMeToo is actually something commendable but with the rate at which the movement is allegedly inclined to the LGBT+, it makes one dead scared. We will never support LGBT just like how we’re vehemently not in support of domestic violence or any type of violence against women."""
-text = line
-tokenise_tweets(text)
 
 # Creates a csv file(output_filename) from textual data that is in input_filename
 
