@@ -9,15 +9,15 @@ This includes:
 (5) Converts all tweets to lowercase
 """
 
+from nltk.tokenize import word_tokenize
+import emoji
+from nltk.stem import PorterStemmer
+from nltk.corpus import stopwords
 import re
 import csv
 import json
 import pandas as pd
 import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize 
-from nltk.stem import PorterStemmer
-import emoji
 
 # Removes all twitter usernames from the tweet text (using the regular expression in regex)
 # and replaces them with 'TAGHERE'
@@ -66,6 +66,7 @@ def convert_to_lower_case(tweet_text):
     tweet = tweet.lower()
     return tweet
 
+
 # Tokenises tweets in order to extract text with hashtags
 
 def tokenise_tweets(tweet_text):
@@ -74,35 +75,39 @@ def tokenise_tweets(tweet_text):
     nltk.regexp_tokenize(tweet_text, pattern)
     return tweet
 
+
 # Removes stop words in tweets
 
 def remove_stopwords(tweet_text):
-    stop_words = set(stopwords.words('english')) 
-    word_tokens = word_tokenize(tweet_text) 
-    filtered_tweet = [word for word in word_tokens if not word in stop_words] 
-    filtered_tweet = [] 
-  
-    for word in word_tokens: 
-        if word not in stop_words: 
+    stop_words = set(stopwords.words('english'))
+    word_tokens = word_tokenize(tweet_text)
+    filtered_tweet = [word for word in word_tokens if not word in stop_words]
+    filtered_tweet = []
+
+    for word in word_tokens:
+        if word not in stop_words:
             filtered_tweet.append(word)
     return filtered_tweet
 
+
 # Stems words in tweets
 
-def stem_words(tweet_text): 
+def stem_words(tweet_text):
     ps = PorterStemmer()
-    tweet = tweet_text
-    words = word_tokenize(tweet_text) 
-   
-    for w in words: 
-        return(w, " : ", ps.stem(w)) 
+    words = word_tokenize(tweet_text)
+    stemmed = []
+    for w in words:
+        stemmed.append(ps.stem(w))
+    return stemmed
 
 # Prints emojis
 
+
 def print_emojis():
-     print(emoji.emojize(':thumbs_up:'))
+    print(emoji.emojize(':thumbs_up:'))
 
 # Creates a csv file(output_filename) from textual data that is in input_filename
+
 
 def convert_to_csv(input_filename, output_filename):
     with open(input_filename, 'r') as infile:
@@ -173,5 +178,3 @@ def remove_duplicates(filepath):
     df = pd.read_csv(filepath)
     df.drop_duplicates(subset=['tweet'], keep='first', inplace=True)
     df.to_csv(filepath, index=False)
-
-
