@@ -70,19 +70,18 @@ def convert_to_lower_case(tweet_text):
 
 def tokenise_tweets(tweet_text):
     tweet = tweet_text
-    pattern = r'''(?x)([A-Z]\.)+|\d+:\d+|(https?://)?(\w+\.)(\w{2,})+([\w/]+)?|[@\#]?\w+(?:[-']\w+)*|\$\d+(\.\d+)?%?|\\[Uu]\w+|\.\.\.|[!?]+'''
-    nltk.regexp_tokenize(tweet_text, pattern)
+    tweet = nltk.word_tokenize(tweet_text)
     return tweet
 
 # Removes stop words in tweets
 
 def remove_stopwords(tweet_text):
     stop_words = set(stopwords.words('english')) 
-    word_tokens = word_tokenize(tweet_text) 
-    filtered_tweet = [word for word in word_tokens if not word in stop_words] 
+    token_words = word_tokenize(tweet_text) 
+    filtered_tweet = [word for word in token_words if not word in stop_words] 
     filtered_tweet = [] 
   
-    for word in word_tokens: 
+    for word in token_words: 
         if word not in stop_words: 
             filtered_tweet.append(word)
     return filtered_tweet
@@ -102,6 +101,11 @@ def stem_words(tweet_text):
 def extract_emojis(tweet_text):
   return ''.join(emoj for emoj in tweet_text if emoj in emoji.UNICODE_EMOJI)
 
+
+line = """#ArewaMeToo is actually something commendable but with the rate at which the movement is allegedly inclined to the LGBT+, it makes one dead scared. We will never support LGBT just like how we’re vehemently not in support of domestic violence or any type of violence against women."""
+text = line
+tokenise_tweets(text)
+
 # Creates a csv file(output_filename) from textual data that is in input_filename
 
 def convert_to_csv(input_filename, output_filename):
@@ -115,11 +119,6 @@ def convert_to_csv(input_filename, output_filename):
                 tweet = '"' + stripped + '"'
                 row = (2, ' ', ' ', ' ', tweet)
                 writer.writerow(row)
-
-line = """💥WATCH💥UC. Berkeley👉NO WHITES ALLOWED DAY!!💥What is happening to America🤬💥No Federal money should be given to schools that practice racial discrimination!💥But the kids protesting want free tuition paid for by white Americans!💥RETWEET THISURLHERE"""
-text = line
-extract_emojis(text)
-
 
 # Extracts tweet text from downloaded json tweet data. The tweet data is stored
 # in filename. The extracted tweets are written to a file from which output_file_object is created
