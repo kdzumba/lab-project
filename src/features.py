@@ -255,7 +255,7 @@ if __name__ == '__main__':
     datapath = 'data/dataset.csv'
 
     # dictionary_feature(datapath)
-    # sentiment_feature(datapath)
+    sentiment_feature(datapath)
     # tfidf_feature(datapath)
 
     text = 'dirty'

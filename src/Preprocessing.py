@@ -18,7 +18,11 @@ import csv
 import json
 import pandas as pd
 import nltk
-import string
+from nltk.tokenize import TweetTokenizer
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
+import emoji
 
 # Removes all twitter usernames from the tweet text (using the regular expression in regex)
 # and replaces them with 'TAGHERE'
@@ -99,13 +103,14 @@ def stem_words(tweet_text):
     stemmed = []
     seperator = ' '
 
-    for w in words:
-        stemmed.append(ps.stem(w))
-    stemmed = seperator.join(stemmed)
-    return stemmed
+# Extracts all emojis in tweets
 
+
+def extract_emojis(tweet_text):
+    return ''.join(emoj for emoj in tweet_text if emoj in emoji.UNICODE_EMOJI)
 
 # Creates a csv file(output_filename) from textual data that is in input_filename
+
 
 def convert_to_csv(input_filename, output_filename):
     with open(input_filename, 'r') as infile:
@@ -119,9 +124,9 @@ def convert_to_csv(input_filename, output_filename):
                 row = (2, ' ', ' ', ' ', tweet)
                 writer.writerow(row)
 
-
 # Extracts tweet text from downloaded json tweet data. The tweet data is stored
 # in filename. The extracted tweets are written to a file from which output_file_object is created
+
 
 def get_tweets(input_filename, output_filename):
     tweets_data = []
