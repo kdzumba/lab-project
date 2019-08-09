@@ -16,3 +16,5 @@ twitter_streaming.py
 
 #ignore python generated files
 /__pycache__
+
+/src/private
