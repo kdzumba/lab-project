@@ -171,6 +171,8 @@ def get_tweets(input_filename, output_filename):
 def remove_duplicates(filepath):
     df = pd.read_csv(filepath)
     df.drop_duplicates(subset=['tweet'], keep='first', inplace=True)
-    df.to_csv(filepath, index=False)
+    df.to_csv(filepath, index=True)
 
 
+
+    
