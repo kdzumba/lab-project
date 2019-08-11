@@ -6,11 +6,10 @@ from sklearn import svm
 from sklearn.naive_bayes import ComplementNB
 
 labels = pd.read_csv('./data/labels.csv', encoding='utf-8')
-tfidf_feature = pd.read_csv('./data/tfidf_feature.csv', encoding='utf-8')
-dict_feature = pd.read_csv('./data/dictionary.csv', encoding='utf-8')
+dictionary = pd.read_csv('./data/dictionary.csv', encoding='utf-8')
 sentiment_feature = pd.read_csv('./data/sentiment.csv', encoding='utf-8')
 
-df_list = [labels, tfidf_feature, dict_feature]
+df_list = [labels, dictionary]
 
 master = df_list[0]
 
@@ -26,13 +25,10 @@ X = master.iloc[:, 3:]
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42)
 
-y_train.to_csv('./data/train_target.csv')
-y_test.to_csv('./data/test_target.csv')
-
 # Creating scaled version of training and testing data
 scaler = StandardScaler()
-
 scaler.fit(X_train)
+
 X_train_scaled = scaler.transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 

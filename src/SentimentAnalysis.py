@@ -32,7 +32,7 @@ def sentiment_feature(datapath):
   for df in df_list[1:]:
     master = pd.concat([master, df], ignore_index=True)
   
-  master.to_csv('data/sentiment.csv')
+  master.to_csv('./data/sentiment.csv')
 
 # X_train, X_test, y_train, y_test  = train_test_split(features_nd, data_labels, train_size=0.80, random_state=1234)
 # log_model = log_model.fit(X=X_train, y=y_train)
@@ -47,6 +47,6 @@ def sentiment_feature(datapath):
 if __name__ == '__main__':
 
  
-  sentiment_feature('data/dataset.csv')
+  sentiment_feature('./data/dataset.csv')
   #datapath = 'data/dataset.csv'
 
