@@ -17,12 +17,12 @@ import re
 import csv
 import json
 import pandas as pd
+import os
 import nltk
 from nltk.tokenize import TweetTokenizer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
-import emoji
 
 # Removes all twitter usernames from the tweet text (using the regular expression in regex)
 # and replaces them with 'TAGHERE'
@@ -105,7 +105,6 @@ def stem_words(tweet_text):
 
 # Extracts all emojis in tweets
 
-
 def extract_emojis(tweet_text):
     return ''.join(emoj for emoj in tweet_text if emoj in emoji.UNICODE_EMOJI)
 
@@ -181,3 +180,17 @@ def remove_duplicates(filepath):
     df = pd.read_csv(filepath)
     df.drop_duplicates(subset=['tweet'], keep='first', inplace=True)
     df.to_csv(filepath, index=True)
+
+#Joins csv datafiles with different tweets in order to form one dataset
+
+def combine_csv_files(infile, outfile):
+    os.chdir(indir)
+    dfList = []
+    colnames = ['index', 'label', 'tweet']
+    for text in infile:
+        df = pd.read_csv('/Desktop/dataset.csv')
+        dfList.append(df)
+    concatDf = pandas.concat(dfList, axis=0)
+    concatDf.columns=colnames
+    concatDf.to_csv(outfile,index=None)
+    

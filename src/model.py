@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn import svm
 from sklearn.naive_bayes import ComplementNB
+from sklearn import svm
 
 labels = pd.read_csv('./data/labels.csv', encoding='utf-8')
 dictionary = pd.read_csv('./data/dictionary.csv', encoding='utf-8')
@@ -39,3 +40,5 @@ predictions = classifier.predict(X_test)
 
 for i in range(len(predictions)):
     print(predictions[i])
+
+
