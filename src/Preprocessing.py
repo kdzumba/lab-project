@@ -183,14 +183,8 @@ def remove_duplicates(filepath):
 
 #Joins csv datafiles with different tweets in order to form one dataset
 
-def combine_csv_files(infile, outfile):
-    os.chdir(indir)
-    dfList = []
-    colnames = ['index', 'label', 'tweet']
-    for text in infile:
-        df = pd.read_csv('/Desktop/dataset.csv')
-        dfList.append(df)
-    concatDf = pandas.concat(dfList, axis=0)
-    concatDf.columns=colnames
-    concatDf.to_csv(outfile,index=None)
+def combine_csv_files(filepath):
+    df = pd.read_csv('/home/zanele/Desktop/dataset.csv')
+    df =  df.drop(columns=['count', 'not_hate_speech', 'class'])
+    df.to_csv(filepath,index=True)
     
