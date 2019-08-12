@@ -23,6 +23,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
 import emoji
+import string
 
 # Removes all twitter usernames from the tweet text (using the regular expression in regex)
 # and replaces them with 'TAGHERE'
@@ -68,18 +69,29 @@ def remove_line(tweet_text):
 # should first convert tweet to lower case
 
 def remove_stopwords(tweet_text):
-    tweet_text = tweet_text.lower()
     stop_words = set(stopwords.words('english'))
     word_tokens = word_tokenize(tweet_text)
     filtered_tweet = [word for word in word_tokens if not word in stop_words]
+    filtered_tweet = []
 
-    seperator = ' '
-    no_stopwords = seperator.join(filtered_tweet)
+    for word in word_tokens:
+        if word not in stop_words:
+            filtered_tweet.append(word)
+    return filtered_tweet
 
-    return no_stopwords
 
+# Stems words in tweets
+
+def stem_words(tweet_text):
+    ps = PorterStemmer()
+    words = word_tokenize(tweet_text)
+    stemmed = []
+    for w in words:
+        stemmed.append(ps.stem(w))
+    return stemmed
 
 # Removes punctuations from tweets and replaces them with empty string
+
 
 def remove_punctuations(tweet_text):
     translator = str.maketrans('', '', string.punctuation)
@@ -95,16 +107,7 @@ def remove_digits(tweet_text):
     return no_digits
 
 
-# Stems words in tweets to their root words
-
-def stem_words(tweet_text):
-    ps = PorterStemmer()
-    words = word_tokenize(tweet_text)
-    stemmed = []
-    seperator = ' '
-
 # Extracts all emojis in tweets
-
 
 def extract_emojis(tweet_text):
     return ''.join(emoj for emoj in tweet_text if emoj in emoji.UNICODE_EMOJI)
@@ -116,12 +119,11 @@ def convert_to_csv(input_filename, output_filename):
     with open(input_filename, 'r') as infile:
         with open(output_filename, 'w') as outfile:
             writer = csv.writer(outfile)
-            writer.writerow(
-                ('count', 'hate_speech', 'not_hate_speech', 'class', 'tweet'))
+            writer.writerow(('label', 'tweet'))
             for text in infile:
                 stripped = text.strip()
                 tweet = '"' + stripped + '"'
-                row = (2, ' ', ' ', ' ', tweet)
+                row = ('', tweet)
                 writer.writerow(row)
 
 # Extracts tweet text from downloaded json tweet data. The tweet data is stored
