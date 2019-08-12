@@ -1,3 +1,6 @@
+from sklearn import svm
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.svm import SVC
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
@@ -48,6 +51,13 @@ def get_model():
     return comp_NB
 
 
+labels = pd.read_csv('./data/labels.csv', encoding='utf-8')
+dictionary = pd.read_csv('./data/dictionary.csv', encoding='utf-8')
+sentiment_feature = pd.read_csv('./data/sentiment.csv', encoding='utf-8')
+
+df_list = [labels, dictionary]
+
+
 if __name__ == "__main__":
 
     model = get_model()
@@ -77,3 +87,22 @@ if __name__ == "__main__":
             tweet = input("Tweet: ")
         else:
             break
+# for i in range(len(predictions)):
+#     print(predictions[i])
+
+# Creating data for model to be trained using svm
+X = pd.read_csv("data/sentiment.csv")
+X = X.drop(columns=['index'])
+df = pd.read_csv("data/dataset.csv")
+y = df.label
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.40)
+
+# Train svm classifier
+svclassifier = SVC(kernel='linear')
+svclassifier.fit(X_train, y_train)
+
+y_pred = svclassifier.predict(X_test)
+
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))

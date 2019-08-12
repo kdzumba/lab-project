@@ -10,6 +10,7 @@ import numpy as np
 import sklearn.feature_extraction
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn import preprocessing
 import string
 
 from nltk.tokenize import word_tokenize
@@ -233,7 +234,6 @@ def sentiment_feature(datapath):
         master=pd.concat([master, df], ignore_index=True)
 
     master.to_csv('./data/sentiment.csv')
-
 
 """
 calculates TF-IDF scores for anagrams, bigrams, trigrams and quadgrams from the
