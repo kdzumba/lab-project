@@ -264,8 +264,6 @@ def tfidf_feature(datapath):
     tf_idf.to_csv('./data/tfidf_feature.csv')
 
 
-
-
 if __name__ == '__main__':
 
     datapath = 'data/dataset.csv'
