@@ -275,7 +275,7 @@ if __name__ == '__main__':
     datapath='./data/dataset.csv'
 
     dictionary_feature(datapath)
-    # sentiment_feature(datapath)
+    sentiment_feature(datapath)
     # tfidf_feature(datapath)
 
     # print(get_sentiment_score("""“fuck Your Pig-God!” Muslim Persecution of Christians, April 2019 """))
