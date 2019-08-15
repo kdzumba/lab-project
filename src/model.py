@@ -14,23 +14,24 @@ import features
 
 def get_model():
 
-    data = pd.read_csv('./data/dataset.csv', encoding='utf-8')
-    tfidf_feature = pd.read_csv('./data/tfidf_feature.csv', encoding='utf-8')
-    dict_feature = pd.read_csv('./data/dictionary.csv', encoding='utf-8')
-    sentiment_feature = pd.read_csv('./data/sentiment.csv', encoding='utf-8')
+    data = pd.read_csv("./data/dataset.csv", encoding="utf-8")
+    tfidf_feature = pd.read_csv("./data/tfidf_feature.csv", encoding="utf-8")
+    dict_feature = pd.read_csv("./data/dictionary.csv", encoding="utf-8")
+    sentiment_feature = pd.read_csv("./data/sentiment.csv", encoding="utf-8")
 
-    df_list = [data, sentiment_feature, dict_feature, dict_feature]
+    df_list = [data, sentiment_feature, dict_feature, dict_feature, tfidf_feature]
 
     master = df_list[0]
 
     for df in df_list[1:]:
-        master = master.merge(df, on='index')
+        master = master.merge(df, on="index")
 
     y = master.iloc[:, 1]
     X = master.iloc[:, 3:]
 
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.4, random_state=42)
+        X, y, test_size=0.4, random_state=42
+    )
 
     scaler = MinMaxScaler()
     scaler.fit(X_train)
@@ -51,7 +52,6 @@ def get_model():
 if __name__ == "__main__":
 
     model = get_model()
-    dump(model, 'comp_NaiveBayes.joblib')
 
     # model = load('comp_NaiveBayes.joblib')
 
@@ -59,18 +59,17 @@ if __name__ == "__main__":
 
     while True:
         if tweet != "logout":
-            sen_feature = pd.DataFrame(
-                features.get_sentiment_score(tweet), index=[0])
-            dic_feature1 = pd.DataFrame(
-                features.term_frequency(tweet), index=[0])
 
-            dic_feature2 = pd.DataFrame(
-                features.term_frequency(tweet), index=[0])
+            sen_feature = pd.DataFrame(features.get_sentiment_score(tweet), index=[0])
+            dic_feature1 = pd.DataFrame(features.term_frequency(tweet), index=[0])
+            dic_feature2 = pd.DataFrame(features.term_frequency(tweet), index=[0])
+            tfidf_feature = features.get_tfidf_scores(tweet)
 
             tweet_df = sen_feature.merge(
-                dic_feature1, left_index=True, right_index=True)
-            tweet_df = tweet_df.merge(
-                dic_feature2, left_index=True, right_index=True)
+                dic_feature1, left_index=True, right_index=True
+            )
+            tweet_df = tweet_df.merge(dic_feature2, left_index=True, right_index=True)
+            tweet_df = tweet_df.merge(tfidf_feature, left_index=True, right_index=True)
 
             pred = model.predict_proba(tweet_df)
             print("Hate Level: ", pred[0][1])
