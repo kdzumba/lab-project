@@ -23,11 +23,8 @@ from nltk.tokenize import TweetTokenizer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
-<<<<<<< HEAD
 import emoji
 import string
-=======
->>>>>>> aaf4c0e551726bee5a0df70a2a0c1083da434956
 
 # Removes all twitter usernames from the tweet text (using the regular expression in regex)
 # and replaces them with 'TAGHERE'
