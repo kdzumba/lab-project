@@ -1,11 +1,15 @@
+from sklearn import svm
+from sklearn.svm import SVC
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.naive_bayes import ComplementNB
 from sklearn.naive_bayes import GaussianNB
+from sklearn.decomposition import PCA
+from sklearn.linear_model import LogisticRegression
 
 from joblib import dump, load
 
@@ -48,12 +52,9 @@ def get_model():
 
     return comp_NB
 
-
 if __name__ == "__main__":
 
     model = get_model()
-
-    # model = load('comp_NaiveBayes.joblib')
 
     tweet = input("Tweet: ")
 
@@ -65,9 +66,7 @@ if __name__ == "__main__":
             dic_feature2 = pd.DataFrame(features.term_frequency(tweet), index=[0])
             tfidf_feature = features.get_tfidf_scores(tweet)
 
-            tweet_df = sen_feature.merge(
-                dic_feature1, left_index=True, right_index=True
-            )
+            tweet_df = sen_feature.merge(dic_feature1, left_index=True, right_index=True)
             tweet_df = tweet_df.merge(dic_feature2, left_index=True, right_index=True)
             tweet_df = tweet_df.merge(tfidf_feature, left_index=True, right_index=True)
 

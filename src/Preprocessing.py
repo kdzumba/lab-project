@@ -15,6 +15,7 @@ import re
 import csv
 import json
 import pandas as pd
+import os
 import nltk
 from nltk.stem import PorterStemmer
 import string
@@ -177,3 +178,11 @@ def remove_duplicates(filepath):
     df = pd.read_csv(filepath)
     df.drop_duplicates(subset=['tweet'], keep='first', inplace=True)
     df.to_csv(filepath, index=True)
+
+#Joins csv datafiles with different tweets in order to form one dataset
+
+def combine_csv_files(filepath):
+    df = pd.read_csv('/home/zanele/Desktop/dataset.csv')
+    df =  df.drop(columns=['count', 'not_hate_speech', 'class'])
+    df.to_csv(filepath,index=True)
+    
