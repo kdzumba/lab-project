@@ -98,11 +98,14 @@ X = X.drop(columns=['index'])
 df = pd.read_csv("data/dataset.csv")
 y = df.label
 
+# Split dataset into trainign and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.40)
 
 # Train svm classifier
 svclassifier = SVC(kernel='linear')
 svclassifier.fit(X_train, y_train)
+
+#y_pred = svclassifier.predict(X_test)
 
 # Scale data
 scaler = StandardScaler()
@@ -110,31 +113,52 @@ scaler = StandardScaler()
 # Fit on training set alone
 scaler.fit(X_train, y_train)
 
+# Feature Scaling (start here)
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+# Applying PCA
+pca = PCA(n_components = 2)
+X_train = pca.fit_transform(X_train)
+X_test = pca.transform(X_test)
+explained_variance = pca.explained_variance_ratio_
+
+# Train Regression Model with PCA
+classifier = LogisticRegression(solver = 'lbfgs')
+classifier.fit(X_train, y_train)
+
+# Predict Results from PCA Model
+y_pred = classifier.predict(X_test)
+
+# Create Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
 # Apply transform to both the training set and the test set
-train_img = scaler.transform(X_train)
-test_img = scaler.transform(X_test)
+# train_img = scaler.transform(X_train)
+# test_img = scaler.transform(X_test)
 
 # Making instance of the Model
-pca = PCA(.95)
+# pca = PCA(.95)
 
 # Fit pca on training set
-pca.fit(train_img)
+# pca.fit(train_img)
 
 # Apply mapping transform to both training and testing set
-train_img = pca.transform(X_train)
-test_img = pca.transform(X_test)
+# train_img = pca.transform(X_train)
+# test_img = pca.transform(X_test)
 
-#In sklearn, all machine learning models are implemented as Python classes
-#Making instance of model
-logisticRegr = LogisticRegression(solver = 'lbfgs')
+# In sklearn, all machine learning models are implemented as Python classes
+# Making instance of model
+# logisticRegr = LogisticRegression(solver = 'lbfgs')
 
-#Training model on data
-logisticRegr.fit(train_img, y_train)
+# Training model on data
+# logisticRegr.fit(train_img, y_train)
 
 # Predict for one observation (image)
-logisticRegr.predict(test_img[0:10])
+# logisticRegr.predict(test_img[0:10])
 
-y_pred = svclassifier.predict(X_test)
-
-print(confusion_matrix(y_test, y_pred))
-#print(classification_report(y_test, y_pred))
+# print(confusion_matrix(y_test, y_pred))
+# print(logisticRegr.score(test_img, y_pred))
+# print(classification_report(y_test, y_pred))
