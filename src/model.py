@@ -45,9 +45,9 @@ def get_model():
     comp_NB.fit(X_train_scaled, y_train)
     comp_pred = comp_NB.predict(X_test_scaled)
 
-    #print("Complement Naive Bayes")
-    #print("Accuracy Score: ", accuracy_score(y_test, comp_pred))
-    #print("Confusion Matrix: \n", confusion_matrix(y_test, comp_pred))
+    print("Complement Naive Bayes")
+    print("Accuracy Score: ", accuracy_score(y_test, comp_pred))
+    print("Confusion Matrix: \n", confusion_matrix(y_test, comp_pred))
 
     return comp_NB
 
@@ -64,32 +64,32 @@ if __name__ == "__main__":
     model = get_model()
     dump(model, 'comp_NaiveBayes.joblib')
 
-    # model = load('comp_NaiveBayes.joblib')
+    model = load('comp_NaiveBayes.joblib')
 
-    # tweet = input("Tweet: ")
+    tweet = input("Tweet: ")
 
-    # while True:
-    #     if tweet != "logout":
-    #         sen_feature = pd.DataFrame(
-    #             features.get_sentiment_score(tweet), index=[0])
-    #         dic_feature1 = pd.DataFrame(
-    #             features.term_frequency(tweet), index=[0])
+    while True:
+        if tweet != "logout":
+            sen_feature = pd.DataFrame(
+                features.get_sentiment_score(tweet), index=[0])
+            dic_feature1 = pd.DataFrame(
+                features.term_frequency(tweet), index=[0])
 
-    #         dic_feature2 = pd.DataFrame(
-    #             features.term_frequency(tweet), index=[0])
+            dic_feature2 = pd.DataFrame(
+                features.term_frequency(tweet), index=[0])
 
-    #         tweet_df = sen_feature.merge(
-    #             dic_feature1, left_index=True, right_index=True)
-    #         tweet_df = tweet_df.merge(
-    #             dic_feature2, left_index=True, right_index=True)
+            tweet_df = sen_feature.merge(
+                dic_feature1, left_index=True, right_index=True)
+            tweet_df = tweet_df.merge(
+                dic_feature2, left_index=True, right_index=True)
 
-    #         pred = model.predict_proba(tweet_df)
-    #         print("Hate Level: ", pred[0][1])
-    #         tweet = input("Tweet: ")
-    #     else:
-    #         break
-# for i in range(len(predictions)):
-#     print(predictions[i])
+            pred = model.predict_proba(tweet_df)
+            print("Hate Level: ", pred[0][1])
+            tweet = input("Tweet: ")
+        else:
+            break
+for i in range(len(predictions)):
+    print(predictions[i])
 
 # Creating data for model to be trained using svm
 X = pd.read_csv("data/sentiment.csv")
@@ -119,7 +119,7 @@ X_train = sc.fit_transform(X_train)
 X_test = sc.transform(X_test)
 
 # Applying PCA
-pca = PCA(n_components = 2)
+pca = PCA(n_components = 4)
 X_train = pca.fit_transform(X_train)
 X_test = pca.transform(X_test)
 explained_variance = pca.explained_variance_ratio_
