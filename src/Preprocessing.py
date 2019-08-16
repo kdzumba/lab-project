@@ -10,8 +10,6 @@ This includes:
 """
 
 from nltk.tokenize import word_tokenize
-import emoji
-from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 import re
 import csv
@@ -19,11 +17,7 @@ import json
 import pandas as pd
 import os
 import nltk
-from nltk.tokenize import TweetTokenizer
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
-import emoji
 import string
 
 # Removes all twitter usernames from the tweet text (using the regular expression in regex)

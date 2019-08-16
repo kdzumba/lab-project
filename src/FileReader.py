@@ -40,14 +40,14 @@ if __name__ == "__main__":
     # filepath = './data/unlabelled.csv'
     # df = pd.read_csv('./data/unlabelled.csv')
 
-    # df = df[df.label != 1.0]
+    # df = df[df.label != 0.0]
 
     # df.to_csv('./data/unlabelled.csv', index=False)
 
-    # filepath = './data/dataset.csv'
+    filepath = './data/dataset.csv'
 
     # extract_labelled(filepath)
-    # generate_dataset(filepath)
+    generate_dataset(filepath)
 
     # file = './data/labelled.csv'
     # df = pd.read_csv(file)
