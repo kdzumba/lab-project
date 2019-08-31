@@ -5,9 +5,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.naive_bayes import ComplementNB
-from sklearn.naive_bayes import GaussianNB
-from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression
+from joblib import load, dump
 
 from joblib import dump, load
 
@@ -56,7 +55,10 @@ if __name__ == "__main__":
     classifier_1 = ComplementNB()
     classifier_2 = LogisticRegression(solver="lbfgs")
 
-    model = get_model(classifier_2)
+    model = get_model(classifier_1)
+    # dump(model, "model.joblib")
+
+    # model = load("model.joblib")
 
     tweet = input("Tweet: ")
 
@@ -64,14 +66,11 @@ if __name__ == "__main__":
         if tweet != "logout":
 
             sen_feature = pd.DataFrame(features.get_sentiment_score(tweet), index=[0])
-            dic_feature1 = pd.DataFrame(features.term_frequency(tweet), index=[0])
-            dic_feature2 = pd.DataFrame(features.term_frequency(tweet), index=[0])
+            dic_feature = pd.DataFrame(features.term_frequency(tweet), index=[0])
             tfidf_feature = features.get_tfidf_scores(tweet)
 
-            tweet_df = sen_feature.merge(
-                dic_feature1, left_index=True, right_index=True
-            )
-            tweet_df = tweet_df.merge(dic_feature2, left_index=True, right_index=True)
+            tweet_df = sen_feature.merge(dic_feature, left_index=True, right_index=True)
+            tweet_df = tweet_df.merge(dic_feature, left_index=True, right_index=True)
             tweet_df = tweet_df.merge(tfidf_feature, left_index=True, right_index=True)
 
             pred = model.predict_proba(tweet_df)
