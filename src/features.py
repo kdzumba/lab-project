@@ -111,6 +111,7 @@ def term_frequency(text):
         "mohammedan": 0.5,
         "lesbo": 0.5,
         "barbaric": 0.7,
+        "barbarics":0.7,
         "barbarians": 0.8,
         "barbarian": 0.8,
         "ape": 0.4,
