@@ -185,4 +185,3 @@ def combine_csv_files(filepath):
     df = pd.read_csv('/home/zanele/Desktop/dataset.csv')
     df =  df.drop(columns=['count', 'not_hate_speech', 'class'])
     df.to_csv(filepath,index=True)
-    
