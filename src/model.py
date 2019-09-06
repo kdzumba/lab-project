@@ -17,6 +17,7 @@ def get_model(estimator=None):
 
     if estimator is not None:
         data = pd.read_csv("./data/dataset.csv", encoding="utf-8")
+
         tfidf_feature = pd.read_csv("./data/tfidf_feature.csv", encoding="utf-8")
         dict_feature = pd.read_csv("./data/dictionary.csv", encoding="utf-8")
         sentiment_feature = pd.read_csv("./data/sentiment.csv", encoding="utf-8")
@@ -31,13 +32,18 @@ def get_model(estimator=None):
         y = master.iloc[:, 1]
         X = master.iloc[:, 3:]
 
-        X_train, X_test, y_train, y_test = train_test_split(
+        X_train, X_tv, y_train, y_tv = train_test_split(
             X, y, test_size=0.4, random_state=42
         )
 
+        X_validate, X_test, y_validate, y_test = train_test_split(
+            X_tv, y_tv, test_size=0.5, random_state=42
+        )
+
         scaler = MinMaxScaler()
-        scaler.fit(X_train)
+        scaler.fit(X)
         X_train_scaled = scaler.transform(X_train)
+        X_validate_scaled = scaler.transform(X_validate)
         X_test_scaled = scaler.transform(X_test)
 
         # comp_NB = ComplementNB()
@@ -56,9 +62,9 @@ if __name__ == "__main__":
     classifier_2 = LogisticRegression(solver="lbfgs")
 
     model = get_model(classifier_1)
-    # dump(model, "model.joblib")
+    dump(model, "model.joblib")
 
-    # model = load("model.joblib")
+    model = load("model.joblib")
 
     tweet = input("Tweet: ")
 

@@ -111,7 +111,7 @@ def term_frequency(text):
         "mohammedan": 0.5,
         "lesbo": 0.5,
         "barbaric": 0.7,
-        "barbarics":0.7,
+        "barbarics": 0.7,
         "barbarians": 0.8,
         "barbarian": 0.8,
         "ape": 0.4,
@@ -186,7 +186,7 @@ def term_frequency(text):
         hate_count = hate_count + count
         dict_features[dic_term] = count * dictionary[dic_term]
 
-    dict_features["weight"] = hate_count / len(text)
+    dict_features["weight"] = hate_count / (len(text) + 1)
 
     return dict_features
 
@@ -201,7 +201,6 @@ def dictionary_feature(datapath):
 
     data = pd.read_csv(datapath)
 
-    print(data.tweet[0])
     master_df = pd.DataFrame(term_frequency(data.tweet[0]), index=[0])
 
     for i in range(1, len(data)):
@@ -239,6 +238,7 @@ Makes use of the get_sentiment_score function to create a dataset with sentiment
 features
 """
 
+
 def sentiment_feature(datapath):
 
     data = pd.read_csv(datapath)
@@ -261,6 +261,7 @@ def sentiment_feature(datapath):
 
     master.to_csv("./data/sentiment.csv")
 
+
 """
 calculates TF-IDF scores for anagrams, bigrams, trigrams and quadgrams from the
 dataset in filepath and generates a tfidf feature dataset. Does this after removing
@@ -277,13 +278,13 @@ def tfidf_feature(datapath):
 
     # preprocessing required for tf_idf feature
     df["tweet"] = data.tweet
+    df["tweet"] = df.tweet.map(processor.remove_punctuations)
     # df['tweet'] = df.tweet.map(processor.remove_stopwords)
-    # df['tweet'] = df.tweet.map(processor.remove_punctuations)
     df["tweet"] = df.tweet.map(processor.remove_digits)
 
     # Convert corpus into a bag of words. Each comment is converted to a vector
     # of words (semantic structure ignored)
-    count_v = CountVectorizer(ngram_range=(1,4), min_df=0.001)
+    count_v = CountVectorizer(ngram_range=(1, 4), min_df=0.001)
 
     # Customize the vectorizer to the dataset passed
     count_v.fit(df.tweet)
@@ -307,6 +308,8 @@ def tfidf_feature(datapath):
 Creates a vocabulary associated with a paticular dataset and saves a pickeld
 version of it for later usage
 """
+
+
 def create_tfidf_vocab(countvectorizer=None):
 
     if countvectorizer is not None:
@@ -323,7 +326,7 @@ def get_tfidf_scores(text):
         dic = {"tweet": text}
         df = pd.DataFrame(dic, index=[0])
 
-        count_v = CountVectorizer(ngram_range=(1,4), min_df=0.001, vocabulary=vocab)
+        count_v = CountVectorizer(ngram_range=(1, 4), min_df=0.001, vocabulary=vocab)
         count_v.fit(df.tweet)
         count_matrix = count_v.transform(df.tweet)
         transformer = TfidfTransformer()
@@ -334,9 +337,11 @@ def get_tfidf_scores(text):
         )
         return tfidf_scores
 
+
 if __name__ == "__main__":
 
     datapath = "./data/dataset.csv"
+    testdata = "./data/testdata.csv"
 
     dictionary_feature(datapath)
     sentiment_feature(datapath)

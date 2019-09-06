@@ -13,8 +13,8 @@ def generate_dataset(filepath=None):
     if filepath is not None:
         df = pd.read_csv(filepath)
 
-        if 'index' in df.columns:
-            df = df.drop(columns=['index'])
+        if "index" in df.columns:
+            df = df.drop(columns=["index"])
             df.to_csv(filepath, index=True)
         else:
             df.to_csv(filepath, index=False)
@@ -32,24 +32,10 @@ def extract_labelled(filepath):
     df = pd.read_csv(filepath)
 
     df.dropna(axis=0, inplace=True)
-    df.to_csv('./data/labelled.csv')
+    df.to_csv("./data/labelled.csv")
 
 
 if __name__ == "__main__":
 
-    # filepath = './data/unlabelled.csv'
-    # df = pd.read_csv('./data/unlabelled.csv')
-
-    # df = df[df.label != 0.0]
-
-    # df.to_csv('./data/unlabelled.csv', index=False)
-
-    filepath = './data/dataset.csv'
-
-    # extract_labelled(filepath)
+    filepath = "./data/dataset.csv"
     generate_dataset(filepath)
-
-    # file = './data/labelled.csv'
-    # df = pd.read_csv(file)
-    # df = df.drop(columns=['index1', 'index'])
-    # df.to_csv('./data/labelled.csv')
